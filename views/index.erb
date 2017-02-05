@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-	<head>
-		<meta charset="UTF-8">
-		<title>タイトル</title>
-	</head>
-	<body>
+<div>
+	<div>
 		<% unless session[:user] %>
-			<a href="/signin">Login</a>
-			<a href="/signup">SignUp</a>
-			<h2>Please log in</h2>
-		<% else %>
-			<a href="/signout">LogOut</a>
-			<h2><%= User.find(session[:user]).name %></h2>
-		<% end %>
-	</body>
-</html>
+		 <h2>Please log in</h2>
+	 <% else %>
+		 <a href="/signout">LogOut</a>
+		 <h2><%= User.find(session[:user]).name %></h2>
+	 <% end %>
+	</div>
+</div>

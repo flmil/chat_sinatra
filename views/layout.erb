@@ -1,10 +1,27 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-	<meta charset="UTF-8">
-	<title>chat</title>
-</head>
-<body>
-	<%= yield %>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<title>chat</title>
+	</head>
+	<body>
+		<nav>
+			<div>
+				<div>
+					<a href="/">home</a>
+				</div>
+				<ul>
+					<% if !current_user.nil? %>
+						<h2>HELLO!  <%= current_user.name %></h2>
+						<li><a href="/signout">signout</a></li>
+					<% else %>
+						<li>newuser?</li>
+						<li><a href="/signin">Login</a></li>
+						<li><a href="/signup">signup</a></li>
+					<% end %>
+				</ul>
+			</div>
+		</nav>
+		<%= yield %>
+	</body>
 </html>

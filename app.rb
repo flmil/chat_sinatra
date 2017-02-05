@@ -10,6 +10,12 @@ require './models'
 
 enable :sessions
 
+helpers do
+	def current_user
+		User.find_by(id: session[:user])
+	end
+end
+
 get '/' do
 	erb :index
 end
