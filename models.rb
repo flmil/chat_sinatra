@@ -16,5 +16,19 @@ class User < ActiveRecord::Base
 		format: { with: /\A\w+\z/ }
 	validates :password,
 		length: { in: 3..25 }
+	has_many :acticletag
+	belongs_to :massage
+end
 
+class Room < ActiveRecord::Base
+	has_many :acticletag
+	belongs_to :message
+end
+class Massage < ActiveRecord::Base
+	has_many :room
+	has_many :user
+end
+class Acticletag < ActiveRecord::Base
+	belongs_to :user
+	belongs_to :room
 end
