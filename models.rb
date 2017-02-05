@@ -16,6 +16,5 @@ class User < ActiveRecord::Base
 		format: { with: /\A\w+\z/ }
 	validates :password,
 		length: { in: 3..25 }
-	has_many :tasks
 
 end
