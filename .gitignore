@@ -7,3 +7,5 @@ vendor/bundle
 
 *.db
 .DS_Store
+
+db/development.db
