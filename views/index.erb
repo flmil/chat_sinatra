@@ -1,10 +1,26 @@
 <div>
 	<div>
-		<% unless session[:user] %>
-		 <h2>Please log in</h2>
-	 <% else %>
-		 <a href="/signout">LogOut</a>
-		 <h2><%= User.find(session[:user]).name %></h2>
-	 <% end %>
+		<% if !current_user.nil? %>
+			<p>createroom</p>
+			<div>
+				<form action="/create_room" method="post">
+					<div>
+						<input type="text" name="roomname">
+					</div>
+					<div>
+						<input type="submit" value="create room">
+					</div>
+				</form>
+			</div>
+			<div>
+				<% @namerooms.each do |nameroom|%>
+					<ul>
+						<li><a href="/room/<%= nameroom.id %>"><%= nameroom.roomname %></a></li>
+					</ul>
+				<% end %>
+			</div>
+		<% else %>
+			<h2>Plese login</h2>
+		<% end %>
 	</div>
 </div>

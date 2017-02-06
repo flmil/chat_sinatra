@@ -1,8 +1,7 @@
 class Rooms < ActiveRecord::Migration
   def change
 		create_table :rooms do |t|
-			t.integer :user_id
-			t.integer :massage_id
+			t.string :roomname
 
 			t.timestamps null: false
 		end

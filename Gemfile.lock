@@ -18,6 +18,7 @@ GEM
     backports (3.6.8)
     bcrypt (3.1.11)
     builder (3.2.2)
+    dotenv (2.1.1)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -30,6 +31,7 @@ GEM
     multi_json (1.11.2)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    parallel (1.10.0)
     pg (0.18.4)
     rack (1.6.4)
     rack-protection (1.5.3)
@@ -68,8 +70,10 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   bcrypt
+  dotenv
   em-websocket
   nokogiri
+  parallel
   pg
   rails_12factor
   rake

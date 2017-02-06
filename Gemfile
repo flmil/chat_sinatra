@@ -8,7 +8,9 @@ gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'nokogiri'
 gem 'bcrypt'
+gem 'parallel'
 gem 'em-websocket'
+gem 'dotenv'
 
 group :development, :test do
   gem 'sqlite3'

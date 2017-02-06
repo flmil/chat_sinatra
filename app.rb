@@ -17,7 +17,8 @@ helpers do
 end
 
 get '/' do
-	erb :index
+	@namerooms = Room.order('id DESC').all
+	erb :index 
 end
 
 get '/signin' do
@@ -44,13 +45,27 @@ end
 
 post '/signin' do
 	user = User.find_by(mail: params[:mail])
-	if user && user.authenticate(params[:passwrod])
+	if user && user.authenticate(params[:password])
 		session[:user] = user.id
 	end
+
 	redirect '/'
 end
 
 get '/signout' do
 	session[:user] = nil
+	redirect '/'
+end
+
+get  '/room/:room_id' do
+	@namerooms = Room.find_by(id: params[:room_id])
+	erb :room
+end
+
+post '/create_room' do
+	Room.create({
+		roomname: params[:roomname]
+	})
+
 	redirect '/'
 end
