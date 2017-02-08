@@ -69,3 +69,15 @@ post '/create_room' do
 
 	redirect '/'
 end
+
+post '/message_body/:room_id' do
+#	@namerooms = Room.find_by(id: params[:room_id])
+	Message.create({
+		body: params[:body],
+		#name: User.find(session[:user]).username,
+		#name_id: User.find(session[:user]).id,
+		#room_id: Room.find_by(id: params[:room_id])
+	})
+
+	redirect '/room/:room_id'
+end

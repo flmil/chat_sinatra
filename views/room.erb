@@ -1,9 +1,9 @@
 <div>
 	<h2><%= @namerooms.roomname %></h2>
-	<form action="body" method="post">
+	<form action="/message_body/<%= @namerooms.id %>" method="post">
 		<div>
 			<div>
-				<input type="text" name="massage">
+				<input type="text" name="message">
 			</div>
 			<div>
 				<input type="submit" value="Transmission">
