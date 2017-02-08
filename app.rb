@@ -59,6 +59,7 @@ end
 
 get  '/room/:room_id' do
 	@namerooms = Room.find_by(id: params[:room_id])
+	@message = Message.order('id DESC').all
 	erb :room
 end
 
@@ -70,14 +71,16 @@ post '/create_room' do
 	redirect '/'
 end
 
-post '/message_body/:room_id' do
-#	@namerooms = Room.find_by(id: params[:room_id])
+post '/new/message' do
+	@namerooms = Room.find_by(id: params[:room_id])
+	session[:user]
 	Message.create({
 		body: params[:body],
-		#name: User.find(session[:user]).username,
+		username: User.find(session[:user]).name,
 		#name_id: User.find(session[:user]).id,
 		#room_id: Room.find_by(id: params[:room_id])
 	})
+	@roomid_new = Room.find_by(id: params[:room_id])
 
-	redirect '/room/:room_id'
+	redirect '/room/1'
 end

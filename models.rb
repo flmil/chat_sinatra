@@ -24,7 +24,7 @@ class Room < ActiveRecord::Base
 	has_many :acticletag
 	belongs_to :message
 end
-class Massage < ActiveRecord::Base
+class Message < ActiveRecord::Base
 	has_many :room
 	has_many :user
 end
