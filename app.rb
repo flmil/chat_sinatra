@@ -7,6 +7,7 @@ require './models.rb'
 require 'open-uri'
 require 'time'
 require './models'
+#require 'sinatra-websocket'
 
 enable :sessions
 
@@ -73,7 +74,6 @@ post '/create_room' do
 		room_id: room,
 		user_id: session[:user]
 	})
-
 	redirect '/'
 end
 
@@ -85,7 +85,6 @@ post '/new/message' do
 		username: User.find(session[:user]).name
 		#username: User.find(session[:user]).id
 	})	
-
 	redirect "/room/#{params[:room_id]}"
 end
 
@@ -113,7 +112,6 @@ post '/renew_mail/:user_id' do
 	cercurrent_user.update({
 		mail: params[:mail]
 	})
-
 	redirect '/'
 end
 
@@ -121,17 +119,35 @@ post '/renew_name/:user_id' do
 	current_user.update({
 		name: params[:name]
 	})
-
 	redirect '/'
 end
 
-#post '/renew_password/:user_id' do
-#	user = current_user
-#	if user && user.authenticate(params[:password])
-#		session[:user] = current_user.update({
-#		password: params[:password]
-#	})
+get '/list_user' do
+	@users = User.all
+	@friends = current_user.friends
+	erb :list_user
+end
 
-#	end
-#	redirect '/'
-#end
+post '/friend/:user_id' do
+	# 1. 友達になりたいユーザを取り出す
+	target_user = User.find(params[:user_id])
+	# 2. current_userのfriendsに1.のユーザを追加する
+	current_user.friends << target_user
+	# 3. 1.のユーザのfriendsにcurrent_userを追加する
+	target_user.friends << current_user
+
+	redirect '/list_user'
+end
+
+get  '/oneroom/:user_id' do
+	@user = current_user
+	# TODO:
+	# user_idとcurrent_user.idからRoomを探す
+	# →見つかればそれ使う
+	# なければRoom作る
+	@namerooms = Room.find_by(id: params[:user_id])
+	@message = @namerooms.messages
+
+	erb :room
+end
+

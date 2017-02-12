@@ -15,9 +15,7 @@
 						<h2>HELLO!  <%= current_user.name %></h2>
 						<li><a href="/signout">signout</a></li>
 						<li><a href="/edit/<%= current_user.id %>">edit</a></li>
-						<!--form action="/edit/<%#= current_user.id%>" method="post">
-							<li><input type="submit" value="edit"></li>
-						</form-->
+						<li><a href="/list_user">ListUser</a></li>
 					<% else %>
 						<li>newuser?</li>
 						<li><a href="/signin">Login</a></li>

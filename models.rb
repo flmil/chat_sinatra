@@ -21,9 +21,12 @@ class User < ActiveRecord::Base
 
 	validates :password, confirmation: true,
 		unless: Proc.new { |a| a.password.blank? }
-#		format: {with: /.+@.+/ }
+	#		format: {with: /.+@.+/ }
+
 	has_many :acticletags
 	has_many :rooms, through: :acticletags
+	has_many :relationships, dependent:   :destroy
+	has_many :friends, through: :relationships, source: :friend
 end
 
 class Room < ActiveRecord::Base
@@ -39,4 +42,10 @@ end
 class Acticletag < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :room
+end
+
+class Relationship < ActiveRecord::Base
+	validates :user_id, :uniqueness => {:scope => :friend_id}
+	belongs_to :user, class_name:"User"
+	belongs_to :friend ,class_name:"User"
 end

@@ -1,0 +1,19 @@
+<div>
+	<div>
+		<% @users.each do |user| %>
+			<form action="/friend/<%= user.id %>" method="post">
+				<ul>
+					<li><%= user.name %></li>
+					<li><%= user.idsearch %></li>
+					<li><input type="submit" value="friend"></li>
+				</ul>
+			</form>
+		<% end %>
+		-------------------------------------------------------
+		<% @friends.each do |friend| %>
+			<ul>
+				<li><a href="/oneroom/<%= friend.id %>"><%= friend.name %></a></li>
+			</ul>
+		<% end %>
+	</div>
+</div>
