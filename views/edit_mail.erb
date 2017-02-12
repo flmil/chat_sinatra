@@ -1,0 +1,7 @@
+<div>
+	<a>now using mail address <%= @user.mail%></a>
+	<form action="/renew_mail/<%= @user.id %>" method="post">
+	 <a>mail:<input type="text" name="mail" value="<% @user.mail %>"></a>
+	 <input type="submit" value="edit finish">
+	 </form>
+</div>

@@ -14,20 +14,29 @@ class User < ActiveRecord::Base
 	validates :name,
 		presence: true,
 		format: { with: /\A\w+\z/ }
-	validates :password,
-		length: { in: 3..25 }
-	has_many :acticletag
-	belongs_to :massage
+
+	validates :mail,
+		presence: true,
+		format: {with: /.+@./ } 
+
+	validates :password, confirmation: true,
+		unless: Proc.new { |a| a.password.blank? },
+#		format: {with: /.+@.+/ }
+
+	has_many :acticletags
+	has_many :rooms, through: :acticletags
 end
 
 class Room < ActiveRecord::Base
 	has_many :acticletag
-	belongs_to :message
+	has_many :users, through: :acticletags
+	has_many :messages
 end
+
 class Message < ActiveRecord::Base
-	has_many :room
-	has_many :user
+	belongs_to :room
 end
+
 class Acticletag < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :room

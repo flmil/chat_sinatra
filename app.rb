@@ -58,29 +58,80 @@ get '/signout' do
 end
 
 get  '/room/:room_id' do
+	@user = current_user
 	@namerooms = Room.find_by(id: params[:room_id])
-	@message = Message.order('id DESC').all
+	@message = @namerooms.messages
+
 	erb :room
 end
 
 post '/create_room' do
-	Room.create({
-		roomname: params[:roomname]
+	room = Room.create({
+		roomname: params[:roomname],
+	})
+	Acticletag.create({
+		room_id: room,
+		user_id: session[:user]
 	})
 
 	redirect '/'
 end
 
 post '/new/message' do
-	@namerooms = Room.find_by(id: params[:room_id])
-	session[:user]
+	p params[:room_id]
 	Message.create({
 		body: params[:body],
-		username: User.find(session[:user]).name,
-		#name_id: User.find(session[:user]).id,
-		#room_id: Room.find_by(id: params[:room_id])
-	})
-	@roomid_new = Room.find_by(id: params[:room_id])
+		room_id: params[:room_id],
+		username: User.find(session[:user]).name
+		#username: User.find(session[:user]).id
+	})	
 
-	redirect '/room/1'
+	redirect "/room/#{params[:room_id]}"
 end
+
+get '/edit/:user_id' do
+	@user = current_user
+	erb :edit
+end
+
+get '/edit_mail/:user_id' do
+	@user = current_user
+	erb :edit_mail
+end	
+
+get '/edit_name/:user_id' do
+	@user = current_user
+	erb :edit_name
+end	
+
+get '/edit_password/:user_id' do
+	@user = current_user
+	erb :edit_password
+end	
+
+post '/renew_mail/:user_id' do
+	cercurrent_user.update({
+		mail: params[:mail]
+	})
+
+	redirect '/'
+end
+
+post '/renew_name/:user_id' do
+	current_user.update({
+		name: params[:name]
+	})
+
+	redirect '/'
+end
+
+#post '/renew_password/:user_id' do
+#	user = current_user
+#	if user && user.authenticate(params[:password])
+#		session[:user] = current_user.update({
+#		password: params[:password]
+#	})
+
+#	end
+#	redirect '/'
+#end
