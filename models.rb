@@ -20,9 +20,8 @@ class User < ActiveRecord::Base
 		format: {with: /.+@./ } 
 
 	validates :password, confirmation: true,
-		unless: Proc.new { |a| a.password.blank? },
+		unless: Proc.new { |a| a.password.blank? }
 #		format: {with: /.+@.+/ }
-
 	has_many :acticletags
 	has_many :rooms, through: :acticletags
 end
