@@ -153,16 +153,11 @@ get  '/oneroom/:friend_id' do
 		# なければRoom作る
 	else
 		##@room = Room.where(id: room_id)
-		#@room = Room.find_by(id: params[:room_id])
-		#p Acticletag.create(room: @room,user_id: friend.id)
-		#p Acticletag.create(room: @room,user_id: current_user.id)
-		#p redirect "room/#{@room_id}"
-		room = Room.create({roomname: params[:roomname],})
-		Acticletag.create({
-			room_id: room,
-			user_id: session[:user]
+		@room = Room.find_by(id: params[:room_id])
+		p Acticletag.create(room: @room,user_id: friend.id)
+		p Acticletag.create(room: @room,user_id: current_user.id)
+		p redirect "room/#{@room_id}"
 		})
-		redirect "room/#{room_id}"
 	end
 
 	#@namerooms = Room.find_by(id: params[:user_id])
