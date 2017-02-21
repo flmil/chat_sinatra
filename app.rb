@@ -156,8 +156,7 @@ get  '/oneroom/:friend_id' do
 		@room = Room.find_by(id: params[:room_id])
 		p Acticletag.create(room: @room,user_id: friend.id)
 		p Acticletag.create(room: @room,user_id: current_user.id)
-		p redirect "room/#{@room_id}"
-		})
+		p redirect "room/#{@room.id}"
 	end
 
 	#@namerooms = Room.find_by(id: params[:user_id])
