@@ -142,25 +142,46 @@ end
 get  '/oneroom/:friend_id' do
 	friend = Relationship.find(params[:friend_id])
 	@user = current_user
+	@friends = current_user.friends
+	@private_room = Private_room.find_by(id: params[:room_id])
+	@message = @private_room.messages
+	erb :private_chat_room
+end
+
+post '/new/private/massage' do
+p params[:room_id]
+	Privatechat.create({
+		messagebody: params[:body],
+		friend_id: params[:friend_id],
+		username: User.find(session[:user]).name
+		#username: User.find(session[:user]).id
+	})	
+	redirect "/room/#{params[:room_id]}"
+
+end
+
+#get  '/oneroom/:friend_id' do
+#	friend = Relationship.find(params[:friend_id])
+#	@user = current_user
 	# TODO:
 	# user_idとcurrent_user.idからRoomを探す
-	if Acticletag.where(user_id: [friend.user_id, friend.friend_id]).group(:room_id).having('count(*) = 2').exists?
+#	if Acticletag.where(user_id: [friend.user_id, friend.friend_id]).group(:room_id).having('count(*) = 2').exists?
 		# 見つかればそれ使う
-		User.where(user_id: [relationship.user_id, relationship.friend_id]).group(:room_id).each do |room|
-			@room = Room.where(id: room.room_id)
-			redirect "room/#{room.room_id}"
-		end
+#		User.where(user_id: [relationship.user_id, relationship.friend_id]).group(:room_id).each do |room|
+#			@room = Room.where(id: room.room_id)
+#			redirect "room/#{room.room_id}"
+#		end
 		# なければRoom作る
-	else
+#	else
 		##@room = Room.where(id: room_id)
-		@room = Room.find_by(id: params[:room_id])
-		p Acticletag.create(room: @room,user_id: friend.id)
-		p Acticletag.create(room: @room,user_id: current_user.id)
-		p redirect "room/#{@room.id}"
-	end
+#		@room = Room.find_by(id: params[:room_id])
+#		p Acticletag.create(room: @room,user_id: friend.id)
+#		p Acticletag.create(room: @room,user_id: current_user.id)
+#		p redirect "room/#{@room.id}"
+#	end
 
 	#@namerooms = Room.find_by(id: params[:user_id])
 	#@message = @namerooms.messages
 
-	erb :room
-end
+#	erb :room
+#end
