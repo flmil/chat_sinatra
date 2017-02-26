@@ -49,6 +49,14 @@ ActiveRecord::Schema.define(version: 20170226012612) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "privatechats", force: :cascade do |t|
+    t.string   "body"
+    t.string   "username"
+    t.integer  "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "relationships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "friend_id"
