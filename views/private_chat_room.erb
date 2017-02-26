@@ -1,0 +1,27 @@
+
+<div>
+	<h2><%= @friends.name %></h2>
+	<form action="/new/private/message" method="post">
+		<div>
+			<div>
+				<input type="text" name="body">
+			</div>
+			<div>
+				<input type="hidden" name="room_id" value="<%= @private_room.id %>">
+			</div>
+			<div>
+				<input type="hidden" name="username" value="<%= @user.id%>">
+				<div>
+					<input type="submit" value="send">
+				</div>
+			</div>
+	</form>
+	<div>
+		<% @message.order('id DESC').each do |message| %>
+			<ul>
+				<li><%= message.username %></li>
+				<li><%= message.body %></li>
+			</ul>
+		<% end %>
+	</div>
+		</div>

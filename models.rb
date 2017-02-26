@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
 	has_many :rooms, through: :acticletags
 	has_many :relationships, dependent:   :destroy
 	has_many :friends, through: :relationships, source: :friend
+	has_many :privatechatmember
 end
 
 class Room < ActiveRecord::Base
@@ -48,4 +49,22 @@ class Relationship < ActiveRecord::Base
 	validates :user_id, :uniqueness => {:scope => :friend_id}
 	belongs_to :user, class_name:"User"
 	belongs_to :friend ,class_name:"User"
+	has_many :privatechatmessages
 end
+
+class Privatechatroom < ActiveRecord::Base
+	has_many :privatechatmembers
+	has_many :privatechatmessages
+	has_many :users, through: :privatechatmembers
+end
+
+class Privatechatmessage < ActiveRecord::Base
+	belongs_to :privatechatroom
+end
+
+class Privatechatmember < ActiveRecord::Base
+	belongs_to :user
+	belongs_to :privatechatroom
+	belongs_to :relationship
+end
+

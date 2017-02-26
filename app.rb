@@ -136,31 +136,62 @@ post '/friend/:user_id' do
 	# 3. 1.のユーザのfriendsにcurrent_userを追加する
 	target_user.friends << current_user
 
+	privatechatroom = create.privatechatroom
+
+	privatechatroom.users << current_user 
+	privatechatroom.friend << target_user 
+
+	#create.privatechatmember({
+	#	user_id: session[:user],
+	#	friend_id: current_user.friends,
+	#	private_room_id: privatechatroom,
+	#})
+
 	redirect '/list_user'
 end
 
-get  '/oneroom/:friend_id' do
-	friend = Relationship.find(params[:friend_id])
+get  '/privateroom/:privatechatroom_id' do
+	#friend = Relationship.find(params[:friend_id])
 	@user = current_user
+	@friends = current_user.friends
+	@private_room = Privatechatrooms.find_by(id: params[:id])
+	@message = @private_room.privatechatmessage
+	erb :private_chat_room
+end
+
+post '/new/private/massage' do
+p params[:friend_id]
+	Privatechat.create({
+		messagebody: params[:body],
+		friend_id: params[:friend_id],
+		username: User.find(session[:user]).name
+	})	
+	redirect "/room/#{params[:room_id]}"
+
+end
+
+#get  '/oneroom/:friend_id' do
+#	friend = Relationship.find(params[:friend_id])
+#	@user = current_user
 	# TODO:
 	# user_idとcurrent_user.idからRoomを探す
-	if Acticletag.where(user_id: [friend.user_id, friend.friend_id]).group(:room_id).having('count(*) = 2').exists?
+#	if Acticletag.where(user_id: [friend.user_id, friend.friend_id]).group(:room_id).having('count(*) = 2').exists?
 		# 見つかればそれ使う
-		User.where(user_id: [relationship.user_id, relationship.friend_id]).group(:room_id).each do |room|
-			@room = Room.where(id: room.room_id)
-			redirect "room/#{room.room_id}"
-		end
+#		User.where(user_id: [relationship.user_id, relationship.friend_id]).group(:room_id).each do |room|
+#			@room = Room.where(id: room.room_id)
+#			redirect "room/#{room.room_id}"
+#		end
 		# なければRoom作る
-	else
+#	else
 		##@room = Room.where(id: room_id)
-		@room = Room.find_by(id: params[:room_id])
-		p Acticletag.create(room: @room,user_id: friend.id)
-		p Acticletag.create(room: @room,user_id: current_user.id)
-		p redirect "room/#{@room.id}"
-	end
+#		@room = Room.find_by(id: params[:room_id])
+#		p Acticletag.create(room: @room,user_id: friend.id)
+#		p Acticletag.create(room: @room,user_id: current_user.id)
+#		p redirect "room/#{@room.id}"
+#	end
 
 	#@namerooms = Room.find_by(id: params[:user_id])
 	#@message = @namerooms.messages
 
-	erb :room
-end
+#	erb :room
+#end
